@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .product {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .product h3 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        .product ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .product li {
+            margin-left: 20px;
+        }
+
+        .plus-btn {
+            cursor: pointer;
+            color: green;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .back-button, .view-cart-button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            color: black;
+            position: fixed;
+            z-index: 999;
+        }
+
+        .back-button {
+            top: 20px;
+            left: 20px;
+        }
+
+        .view-cart-button {
+            top: 20px;
+            right: 20px;
+        }
+
+        .back-button:hover, .view-cart-button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Product: <span th:text="${products[0].productType.name}"></span></h2>
+    <div class="product" th:each="product : ${products}">
+        <ul>
+            <li th:text="${product.name + ' - Price: ' + product.price + ' SEK'}"></li>
+            <li>
+                <form th:action="@{/addToCart}" method="post">
+                    <input type="hidden" name="productId" th:value="${product.id}" />
+                    <button type="submit" class="plus-btn">+</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<a class="back-button" href="/homepage">Back to Homepage</a>
+
+<a class="view-cart-button" href="/cart">View Cart</a>
+
+</body>
+</html>

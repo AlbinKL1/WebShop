@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+<h1>Welcome to Admin Dashboard</h1>
+<h2>Completed Orders</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>User ID</th>
+        <th>Items</th>
+        <th>Created At</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${completedOrders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.userId}"></td>
+        <td>
+            <ul>
+                <li th:each="item : ${order.orderItems}" th:text="${item.product.name}"></li>
+            </ul>
+        </td>
+        <td th:text="${order.createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Processing Orders</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>Product IDs</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${userOrders.entrySet()}">
+        <td th:text="${entry.key}"></td>
+        <td>
+            <span th:each="order : ${entry.value}">
+                <span th:text="${order.productId}"></span>
+                <span th:if="${order.productId != null and #strings.toString(order.productId) != ''}">, </span>
+            </span>
+        </td>
+        <td>
+            <form th:action="@{/admin/completeOrders}" method="post">
+                <input type="hidden" name="userIds" th:value="${entry.key}">
+                <button type="submit">Complete Orders</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Products</h2>
+<h3>Add product</h3>
+<form action="/admin/addProduct" method="post">
+    <label>
+        <input type="text" name="productName" placeholder="Product Name" required>
+    </label><br>
+    <label>
+        <input type="number" name="productPrice" placeholder="Product Price" required>
+    </label><br>
+    <label>
+        <select name="productType" required style="display: initial;">
+            <option value="" disabled selected>Select Product Type</option>
+            <option th:each="productType : ${productTypes}" th:value="${productType.id}" th:text="${productType.name}"></option>
+        </select>
+    </label><br>
+    <button type="submit">Add Product</button>
+</form>
+<h2></h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Product ID</th>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

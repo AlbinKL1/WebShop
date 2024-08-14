@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .category-button {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+        }
+
+        .category-button:hover {
+            background-color: #ddd;
+        }
+
+        .view-cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .view-cart-button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<h2>Categories</h2>
+<div class="category-grid">
+    <div th:each="productType : ${productTypes}">
+        <a class="category-button" th:text="${productType.name}" th:href="@{'/product/' + ${productType.id}}"></a>
+    </div>
+</div>
+
+<a class="view-cart-button" href="/cart">View Cart</a>
+
+</body>
+</html>

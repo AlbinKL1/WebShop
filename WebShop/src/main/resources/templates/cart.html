@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cart-item h3 {
+            color: #333;
+            margin-top: 0;
+        }
+
+        .cart-item ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .cart-item li {
+            margin-left: 20px;
+        }
+
+        .total-cost {
+            margin-top: 20px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .back-button {
+            top: 20px;
+            left: 20px;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            color: black;
+            position: fixed;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Shopping Cart</h2>
+    <div id="cart-items">
+        <div th:each="entry : ${productQuantities.entrySet()}" class="cart-item">
+            <h3 th:text="${entry.key.name + ' - Quantity: ' + entry.value + ' - Price: ' + entry.key.price + ' SEK'}"></h3>
+            <form th:action="@{/removeFromCart}" method="post" class="remove-form">
+                <input type="hidden" name="productId" th:value="${entry.key.id}" />
+                <button type="submit" class="remove-btn">-</button>
+            </form>
+        </div>
+        <div class="total-cost" th:text="'Total: ' + ${totalCost} + ' SEK'"></div>
+        <div>
+            <form th:action="@{/checkout}" method="post">
+                <button type="submit">Checkout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<a class="back-button" href="/homepage">Back to Homepage</a>
+
+</body>
+</html>
